@@ -1,13 +1,6 @@
 pipeline{
     agent any
     
-    options{
-        buildDiscarder(logoRotator(numTokeepStr:'3'))
-        timestamps()
-        timeout(time:30,unit: 'MINUTES')
-        disableConcurrentBuilds()
-    }
-
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('anilgcpcredentials')
     }
