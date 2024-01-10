@@ -29,16 +29,83 @@ pipeline{
                         } else if(env.BRANCH_NAME == 'test'){
                             dir("ops/ArtifactRegistry/uat"){
                                 sh 'terraform --version'
-                                sh 'terraform init -backend-config=./environment/uat/backend_config.tfvars'
-                                sh 'terraform refresh -var-file=./environment/uat/variables.tfvars -no-color'
-                                env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./uat/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
-                                sh 'terraform apply -var-file=./environment/uat/variables.tfvars -no-color -auto-approve'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                sh 'terraform apply -auto-approve'
                             }
                         }
                     }
                 
             }
         }
+
+        stage('Non Prod code build and docker image Creation'){
+            when{
+                anyOf{
+                    branch 'develop';
+                    branch 'test';
+                }
+            }
+            steps{
+                sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                sh 'gcloud config set project excellent-guide-410011'
+                    script{
+                        if(env.BRANCH_NAME == 'develop'){
+                        dir("ops/Docker/dev"){
+                        sh 'echo running non prod terraform scripts'
+                        sh 'docker --version'
+                        sh 'docker images'
+                        sh 'docker build -t pythondemoimage'
+                        sh 'docker images'
+                        sh 'docker tag pythondemoimage  asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
+                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
+                        }
+                    } else if(env.BRANCH_NAME == 'test'){
+                        dir("ops/Docker/uat"){
+                        sh 'echo running non prod terraform scripts'
+                        sh 'docker --version'
+                        sh 'docker images'
+                        sh 'docker build -t pythondemoimage'
+                        sh 'docker images'
+                        sh 'docker tag pythondemoimage  asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-uat-repository/pythondemoimage:latest'
+                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-uat-repository/pythondemoimage:latest'
+                        }
+                    }
+                
+            }
+        }
+        stage('Non Prod cloud run service Creation'){
+            when{
+                anyOf{
+                    branch 'develop';
+                    branch 'test';
+                }
+            }
+            steps{
+                sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
+                sh 'gcloud config set project excellent-guide-410011'
+                    script{
+                        sh 'echo running non prod terraform scripts'
+                        if(env.BRANCH_NAME == 'develop'){
+                            dir("ops/CloudRunService/dev"){
+                                sh 'terraform --version'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                sh 'terraform apply -auto-approve'
+                            }
+                        } else if(env.BRANCH_NAME == 'test'){
+                            dir("ops/CloudRunService/uat"){
+                                sh 'terraform --version'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                sh 'terraform apply -auto-approve'
+                            }
+                        }
+                    }
+                
+            }
+        }
+
         stage('Production Infra : Creation'){
             when{
                 branch 'main';
@@ -52,11 +119,26 @@ pipeline{
                         if(env.BRANCH_NAME == 'main'){
                             dir("ops/ArtifactRegistry/prod"){
                                 sh 'terraform --version'
-                                sh 'terraform init -backend-config=./environment/prd/backend_config.tfvars'
-                                sh 'terraform refresh -var-file=./environment/prd/variables.tfvars -no-color'
-                                env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./prd/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
-                                sh 'terraform apply -var-file=./environment/prd/variables.tfvars -no-color -auto-approve'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                sh 'terraform apply -auto-approve'
                             }
+                            dir("ops/Docker/uat"){
+                                sh 'echo running non prod terraform scripts'
+                                sh 'docker --version'
+                                sh 'docker images'
+                                sh 'docker build -t pythondemoimage'
+                                sh 'docker images'
+                                sh 'docker tag pythondemoimage  asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
+                                sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
+                            }
+                            dir("ops/CloudRunService/uat"){
+                                sh 'terraform --version'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                sh 'terraform apply -auto-approve'
+                            }
+
                         }
                         
                     }
