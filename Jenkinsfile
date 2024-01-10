@@ -54,7 +54,7 @@ pipeline{
             steps{
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                 sh 'gcloud config set project excellent-guide-410011'
-                {
+                
                     script{
                         sh 'echo running prod terraform scripts'
                         if(env.BRANCH_NAME == 'main'){
@@ -68,7 +68,7 @@ pipeline{
                         }
                         
                     }
-                }
+                
             }
         }
     }
