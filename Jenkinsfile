@@ -52,7 +52,8 @@ pipeline{
                     script{
                         if(env.BRANCH_NAME == 'develop'){
                         dir("ops/Docker/dev"){
-                        sh 'echo running non prod terraform scripts'
+                        sh 'echo running dev build docker image '
+                        sh 'sudo su'
                         sh 'docker --version'
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage'
@@ -62,7 +63,7 @@ pipeline{
                         }
                     } else if(env.BRANCH_NAME == 'test'){
                         dir("ops/Docker/uat"){
-                        sh 'echo running non prod terraform scripts'
+                        sh 'echo running uat build docker image'
                         sh 'docker --version'
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage'
@@ -125,7 +126,7 @@ pipeline{
                                 sh 'terraform apply -auto-approve'
                             }
                             dir("ops/Docker/uat"){
-                                sh 'echo running non prod terraform scripts'
+                                sh 'echo running prod build docker image'
                                 sh 'docker --version'
                                 sh 'docker images'
                                 sh 'docker build -t pythondemoimage'
