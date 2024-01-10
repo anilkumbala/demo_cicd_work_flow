@@ -53,11 +53,10 @@ pipeline{
                         if(env.BRANCH_NAME == 'develop'){
                         dir("ops/Docker/dev"){
                         sh 'echo running dev build docker image '
-                        sh 'sudo su'
                         sh 'docker --version'
-                        sh 'docker images'
-                        sh 'docker build -t pythondemoimage'
-                        sh 'docker images'
+                        sh 'sudo docker images'
+                        sh 'sudo docker build -t pythondemoimage'
+                        sh 'sudo docker images'
                         sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
                         sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
                         }
