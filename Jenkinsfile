@@ -16,7 +16,7 @@ pipeline{
     stages{
         stage('Non Prod Infra : Creation'){
             when{
-                anyof{
+                anyOf{
                     branch 'develop';
                     branch 'test';
                 }
