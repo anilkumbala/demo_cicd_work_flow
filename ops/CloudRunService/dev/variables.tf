@@ -3,14 +3,9 @@ variable "location" {
   default = "asia-south1"
 }
 
-variable "repository_id" {
+variable "name" {
   type    = string
-  default = "cicd-demo-dev-repository"
-}
-
-variable "format" {
-  type    = string
-  default = "DOCKER"
+  default = "demo-dev-cloudrun-service"
 }
 
 

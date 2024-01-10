@@ -3,14 +3,9 @@ variable "location" {
   default = "asia-south1"
 }
 
-variable "repository_id" {
+variable "name" {
   type    = string
-  default = "anil-demo-prod-repository"
-}
-
-variable "format" {
-  type    = string
-  default = "DOCKER"
+  default = "demo-prod-cloudrun-service"
 }
 
 

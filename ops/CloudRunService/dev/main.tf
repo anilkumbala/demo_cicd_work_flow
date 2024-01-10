@@ -17,13 +17,21 @@ terraform {
 provider "google" {
   project = "excellent-guide-410011"
 }
-resource "google_artifact_registry_repository" "my-repo" {
-  location      = var.location
-  repository_id = var.repository_id
-  description   = "For docker repository"
-  format        = var.format
 
-  docker_config {
-    immutable_tags = true
+resource "google_cloud_run_v2_service" "default" {
+  name     = var.name
+  location = var.location
+  ingress = "INGRESS_TRAFFIC_ALL"
+
+  template {
+    containers {
+      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest"
+      resources {
+        limits = {
+          cpu    = "2"
+          memory = "1024Mi"
+        }
+      }
+    }
   }
 }
