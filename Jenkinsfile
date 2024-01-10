@@ -1,6 +1,6 @@
 pipeline{
     agent any
-    
+
     environment {
         GOOGLE_APPLICATION_CREDENTIALS = credentials('anilgcpcredentials')
     }
@@ -22,10 +22,9 @@ pipeline{
                         if(env.BRANCH_NAME == 'develop'){
                             dir("ops/ArtifactRegistry/dev"){
                                 sh 'terraform --version'
-                                //sh 'terraform init -backend-config=./environment/sit/backend_config.tfvars'
-                                //sh 'terraform refresh -var-file=./environment/sit/variables.tfvars -no-color'
-                                //env.TERRAFORM_PLAN_EXIT_CODE = sh(returnStatus: true, script:"terraform plan -var-file=./sit/variables.tfvars -no-color -detailed-exitcode -out=output.tfplan")
-                                //sh 'terraform apply -var-file=./environment/sit/variables.tfvars -no-color -auto-approve'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                sh 'terraform apply -auto-approve'
                             }
                         } else if(env.BRANCH_NAME == 'test'){
                             dir("ops/ArtifactRegistry/uat"){

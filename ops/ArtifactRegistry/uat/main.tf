@@ -11,7 +11,7 @@ terraform {
 terraform {
   backend "gcs" {
     bucket = "anil-terraform-statefiles" # GCS bucket name to store terraform tfstate
-    prefix = "demostate"               # Prefix name should be unique for each Terraform project having same remote state bucket.
+    prefix = "cicd-demo/uat/terraform.tfstate"               # Prefix name should be unique for each Terraform project having same remote state bucket.
   }
 }
 provider "google" {

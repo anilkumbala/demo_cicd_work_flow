@@ -5,7 +5,7 @@ variable "location" {
 
 variable "repository_id" {
   type    = string
-  default = "anil-demo-dev-repository"
+  default = "anil-demo-uat-repository"
 }
 
 variable "format" {
