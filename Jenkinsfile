@@ -59,6 +59,7 @@ pipeline{
                         sh 'echo running dev build docker image '
                         sh 'docker version'
                         sh 'docker images'
+                        sh 'docker rmi $(docker images -q)'
                         sh 'docker build -t pythondemoimage .'
                         sh 'docker images'
                         sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
