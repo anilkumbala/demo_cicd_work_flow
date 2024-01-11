@@ -5,7 +5,7 @@ variable "location" {
 
 variable "repository_id" {
   type    = string
-  default = "cicd-demo-dev-repository"
+  default = "anil-cicd-demo-dev-repo"
 }
 
 variable "format" {
