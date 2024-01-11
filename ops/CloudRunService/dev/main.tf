@@ -25,7 +25,7 @@ resource "google_cloud_run_v2_service" "default" {
 
   template {
     containers {
-      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest"
+      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest"       
       resources {
         limits = {
           cpu    = "2"
