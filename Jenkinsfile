@@ -53,7 +53,13 @@ pipeline{
                         if(env.BRANCH_NAME == 'develop'){
                         dir("ops/Docker/dev"){
                         sh 'echo running dev build docker image '
-                        sh 'docker --version'
+                        sh 'sudo usermod -aG docker $USER'
+                        sh 'sudo systemctl status docker'
+                        sh 'sudo systemctl start docker'
+                        sh 'ls -l /var/run/docker.sock'
+                        sh 'sudo chown $USER:docker /var/run/docker.sock'
+                        sh 'sudo systemctl restart docker'
+                        sh 'docker version'
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage'
                         sh 'docker images'
