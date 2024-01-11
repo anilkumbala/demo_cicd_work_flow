@@ -17,8 +17,8 @@ provider "google" {
   project = "excellent-guide-410011"
 }
 resource "google_cloud_run_v2_service" "default" {
-  name     = var.name
-  location = var.location
+  name     = "demo-dev-cloudrun-service"
+  location = "asia-south1"
   ingress = "INGRESS_TRAFFIC_ALL"
   template {
     containers {
