@@ -49,13 +49,17 @@ pipeline{
             steps{
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                 sh 'gcloud config set project excellent-guide-410011'
+                // Add Jenkins user to the docker group
+                sh 'sudo usermod -aG docker jenkins'
+                // Restart Jenkins to apply group changes
+                sh 'sudo systemctl restart jenkins'
                     script{
                         if(env.BRANCH_NAME == 'develop'){
                         dir("ops/Docker/dev"){
                         sh 'echo running dev build docker image '
                         sh 'docker version'
                         sh 'docker images'
-                        sh 'docker build -t pythondemoimage'
+                        sh 'docker build -t pythondemoimage .'
                         sh 'docker images'
                         sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
                         sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
