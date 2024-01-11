@@ -1,4 +1,3 @@
-
 terraform {
   required_version = "~> 0.14"
   required_providers {
@@ -17,38 +16,22 @@ terraform {
 provider "google" {
   project = "excellent-guide-410011"
 }
-
 resource "google_cloud_run_v2_service" "default" {
   name     = var.name
   location = var.location
-  ingress  = "INGRESS_TRAFFIC_ALL"
-
+  ingress = "INGRESS_TRAFFIC_ALL"
   template {
-    spec {
-      containers {
-        image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest"
-
-        resources {
-          limits = {
-            cpu    = "2"
-            memory = "1024Mi"
-          }
-        }
-
-        ports {
-          container_port = 9090
+    containers {
+      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest"       
+      resources {
+        limits = {
+          cpu    = "2"
+          memory = "1024Mi"
         }
       }
-    }
-
-    # Allow unauthenticated access
-    iam_policy {
-      bindings = [
-        {
-          role    = "roles/run.invoker"
-          members = ["allUsers"]
-        },
-      ]
+      ports {
+        container_port = 9090  # Specify the port your application listens on
+      }
     }
   }
 }
