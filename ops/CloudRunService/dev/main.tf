@@ -21,29 +21,34 @@ provider "google" {
 resource "google_cloud_run_v2_service" "default" {
   name     = var.name
   location = var.location
-  ingress = "INGRESS_TRAFFIC_ALL"
+  ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {
-    containers {
-      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest"       
-      resources {
-        limits = {
-          cpu    = "2"
-          memory = "1024Mi"
+    spec {
+      containers {
+        image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest"
+
+        resources {
+          limits = {
+            cpu    = "2"
+            memory = "1024Mi"
+          }
+        }
+
+        ports {
+          container_port = 9090
         }
       }
-      ports {
-        container_port = 9090  # Specify the port your application listens on
-      }
     }
-  }
-# Allow unauthenticated access
-  iam_policy {
-    bindings = [
-      {
-        role    = "roles/run.invoker"
-        members = ["allUsers"]
-      },
-    ]
+
+    # Allow unauthenticated access
+    iam_policy {
+      bindings = [
+        {
+          role    = "roles/run.invoker"
+          members = ["allUsers"]
+        },
+      ]
+    }
   }
 }
