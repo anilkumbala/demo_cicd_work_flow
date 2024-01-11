@@ -75,7 +75,7 @@ pipeline{
             }
         }
         }
-        stage('Non Prod cloud run service Creation'){
+        stage('Non Prod service Creation and deploymet '){
             when{
                 anyOf{
                     branch 'develop';
@@ -124,7 +124,7 @@ pipeline{
                                 sh 'terraform plan -out=output.tfplan'
                                 sh 'terraform apply -auto-approve'
                             }
-                            dir("ops/Docker/uat"){
+                            dir("ops/Docker/prod"){
                                 sh 'echo running prod build docker image'
                                 sh 'docker --version'
                                 sh 'docker images'
@@ -133,7 +133,7 @@ pipeline{
                                 sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
                                 sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
                             }
-                            dir("ops/CloudRunService/uat"){
+                            dir("ops/CloudRunService/prod"){
                                 sh 'terraform --version'
                                 sh 'terraform init'
                                 sh 'terraform plan -out=output.tfplan'
