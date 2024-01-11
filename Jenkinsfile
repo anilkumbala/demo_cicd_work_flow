@@ -58,6 +58,7 @@ pipeline{
                         dir("ops/Docker/dev"){
                         sh 'echo running dev build docker image '
                         sh 'docker version'
+                        sh 'docker rmi -f $(docker images -q)'
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage .'
                         sh 'docker images'
