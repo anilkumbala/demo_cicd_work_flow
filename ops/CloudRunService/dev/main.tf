@@ -35,9 +35,20 @@ resource "google_cloud_run_v2_service" "default" {
     }
   }
 }
+
+output "service_name" {
+  value       = google_cloud_run_v2_service.default.name
+  description = "Name of the created service"
+}
+
+output "location" {
+  value       = google_cloud_run_v2_service.default.location
+  description = "Location in which the Cloud Run service was created"
+}
+
 resource "google_cloud_run_service_iam_binding" "default" {
-  location = google_cloud_run_v2_service.default.location
-  service  = google_cloud_run_v2_service.default.name
+  location = output.google_cloud_run_v2_service.default.location
+  service  = output.google_cloud_run_v2_service.default.name
   role     = "roles/run.invoker"
   members = [
     "allUsers"
