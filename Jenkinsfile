@@ -50,9 +50,9 @@ pipeline{
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                 sh 'gcloud config set project excellent-guide-410011'
                 // Add Jenkins user to the docker group
-                sh 'sudo usermod -aG docker jenkins'
+                // sh 'sudo usermod -aG docker jenkins'
                 // Restart Jenkins to apply group changes
-                sh 'sudo systemctl restart jenkins'
+                // sh 'sudo systemctl restart jenkins'
                     script{
                         if(env.BRANCH_NAME == 'develop'){
                         dir("ops/Docker/dev"){
