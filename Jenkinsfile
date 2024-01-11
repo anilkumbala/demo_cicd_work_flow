@@ -61,8 +61,8 @@ pipeline{
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage .'
                         sh 'docker images'
-                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
-                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
+                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
+                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
                         }
                     } else if(env.BRANCH_NAME == 'test'){
                         dir("ops/Docker/uat"){
@@ -71,8 +71,8 @@ pipeline{
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage'
                         sh 'docker images'
-                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-uat-repository/pythondemoimage:latest'
-                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-uat-repository/pythondemoimage:latest'
+                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-uat-repo/pythondemoimage:latest'
+                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-uat-repo/pythondemoimage:latest'
                         }
                     }
                 
@@ -134,8 +134,8 @@ pipeline{
                                 sh 'docker images'
                                 sh 'docker build -t pythondemoimage'
                                 sh 'docker images'
-                                sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
-                                sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
+                                sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-prod-repo/pythondemoimage:latest'
+                                sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-prod-repo/pythondemoimage:latest'
                             }
                             dir("ops/CloudRunService/prod"){
                                 sh 'terraform --version'
