@@ -61,6 +61,8 @@ pipeline{
                         sh 'docker rmi -f $(docker images -q)'
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage .'
+                        // Authenticate Docker to Google Cloud Artifact Registry
+                        sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
                         sh 'docker images'
                         sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
                         sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
