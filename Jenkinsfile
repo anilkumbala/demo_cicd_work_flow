@@ -49,16 +49,23 @@ pipeline{
             steps{
                 sh 'gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS'
                 sh 'gcloud config set project excellent-guide-410011'
+                // Add Jenkins user to the docker group
+                // sh 'sudo usermod -aG docker jenkins'
+                // Restart Jenkins to apply group changes
+                // sh 'sudo systemctl restart jenkins'
                     script{
                         if(env.BRANCH_NAME == 'develop'){
                         dir("ops/Docker/dev"){
                         sh 'echo running dev build docker image '
                         sh 'docker version'
+                        sh 'docker rmi -f $(docker images -q)'
                         sh 'docker images'
-                        sh 'docker build -t pythondemoimage'
+                        sh 'docker build -t pythondemoimage .'
+                        // Authenticate Docker to Google Cloud Artifact Registry
+                        sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
                         sh 'docker images'
-                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
-                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-dev-repository/pythondemoimage:latest'
+                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
+                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
                         }
                     } else if(env.BRANCH_NAME == 'test'){
                         dir("ops/Docker/uat"){
@@ -66,9 +73,10 @@ pipeline{
                         sh 'docker --version'
                         sh 'docker images'
                         sh 'docker build -t pythondemoimage'
+                        sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
                         sh 'docker images'
-                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-uat-repository/pythondemoimage:latest'
-                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-uat-repository/pythondemoimage:latest'
+                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-uat-repo/pythondemoimage:latest'
+                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-uat-repo/pythondemoimage:latest'
                         }
                     }
                 
@@ -129,9 +137,10 @@ pipeline{
                                 sh 'docker --version'
                                 sh 'docker images'
                                 sh 'docker build -t pythondemoimage'
+                                sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
                                 sh 'docker images'
-                                sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
-                                sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/cicd-demo-prod-repository/pythondemoimage:latest'
+                                sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-prod-repo/pythondemoimage:latest'
+                                sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-prod-repo/pythondemoimage:latest'
                             }
                             dir("ops/CloudRunService/prod"){
                                 sh 'terraform --version'
