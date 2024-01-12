@@ -55,7 +55,7 @@ pipeline{
                 // sh 'sudo systemctl restart jenkins'
                     script{
                         if(env.BRANCH_NAME == 'develop'){
-                        dir("ops/Docker/dev"){
+                        dir("ops/src/dev"){
                         sh 'echo running dev build docker image '
                         sh 'docker version'
                         sh 'docker rmi -f $(docker images -q)'
@@ -68,7 +68,7 @@ pipeline{
                         sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
                         }
                     } else if(env.BRANCH_NAME == 'test'){
-                        dir("ops/Docker/uat"){
+                        dir("ops/src/uat"){
                         sh 'echo running uat build docker image'
                         sh 'docker --version'
                         sh 'docker images'
@@ -132,7 +132,7 @@ pipeline{
                                 sh 'terraform plan -out=output.tfplan'
                                 sh 'terraform apply -auto-approve'
                             }
-                            dir("ops/Docker/prod"){
+                            dir("ops/src/prod"){
                                 sh 'echo running prod build docker image'
                                 sh 'docker --version'
                                 sh 'docker images'
