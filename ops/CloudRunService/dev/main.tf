@@ -22,7 +22,7 @@ resource "google_cloud_run_v2_service" "default" {
   ingress = "INGRESS_TRAFFIC_ALL"
   template {
     containers {
-      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage@digest"       
+      image = "asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:tag"       
       resources {
         limits = {
           cpu    = "2"
