@@ -102,6 +102,12 @@ pipeline{
                                 sh 'terraform plan -out=output.tfplan'
                                 sh 'terraform apply -auto-approve'
                             }
+                            dir("ops/Kubernetes/dev"){
+                                sh 'terraform --version'
+                                sh 'terraform init'
+                                sh 'terraform plan -out=output.tfplan'
+                                //sh 'terraform apply -auto-approve'
+                            }
                         } else if(env.BRANCH_NAME == 'test'){
                             dir("ops/CloudRunService/uat"){
                                 sh 'terraform --version'
