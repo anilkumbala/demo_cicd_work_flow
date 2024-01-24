@@ -18,7 +18,7 @@ provider "google" {
 }
 
 resource "google_service_account" "default" {
-  account_id   = "anil-kubernetes-service-account-id"
+  account_id   = "service-account-id"
   display_name = "Service Account"
 }
 
