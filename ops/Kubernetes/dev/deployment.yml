@@ -12,7 +12,7 @@ spec:
       labels:
         app: pythondemoapp
     spec:
-    containers:
+      containers:
       - name: pythondemoapp
         image: asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-prod-repo/pythondemoimage:latest
         ports:
