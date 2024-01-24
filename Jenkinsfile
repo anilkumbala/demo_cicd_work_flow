@@ -107,8 +107,7 @@ pipeline{
                                 sh 'terraform init'
                                 sh 'terraform plan -out=output.tfplan'
                                 sh 'terraform apply -auto-approve'
-
-                                sh 'gcloud components update'
+                                
                                 sh 'gcloud config set project excellent-guide-410011'
                                 sh 'kubectl config view'
                                 sh 'gcloud container clusters get-credentials anil-demo-gke-cluster --region asia-south1 --project excellent-guide-410011'
