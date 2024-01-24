@@ -60,12 +60,19 @@ pipeline{
                         sh 'docker version'
                         sh 'docker rmi -f $(docker images -q)'
                         sh 'docker images'
-                        sh 'docker build -t pythondemoimage .'
+                        //sh 'docker build -t pythondemoimage .'
                         // Authenticate Docker to Google Cloud Artifact Registry
+                        def imageTag = "latest-${env.BUILD_NUMBER}" // or use a timestamp or commit hash
+                        sh "docker build -t pythondemoimage:${imageTag} ."
+                        sh "docker tag pythondemoimage:${imageTag} asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
+                        sh "docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
                         sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
                         sh 'docker images'
-                        sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
-                        sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
+                        sh "docker tag pythondemoimage:${imageTag} asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
+                        sh "docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
+                        //sh 'docker images'
+                        //sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
+                        //sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
                         }
                     } else if(env.BRANCH_NAME == 'test'){
                         dir("ops/src/uat"){
