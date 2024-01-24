@@ -107,6 +107,10 @@ pipeline{
                                 sh 'terraform init'
                                 sh 'terraform plan -out=output.tfplan'
                                 sh 'terraform apply -auto-approve'
+                                
+                                sh'gcloud container clusters get-credentials anil-demo-gke-cluster --region asia-south1 --project excellent-guide-410011'
+                                sh'kubectl apply -f deployment.yml'
+                                sh'kubectl apply -f service.yml'
                             }
                         } else if(env.BRANCH_NAME == 'test'){
                             dir("ops/CloudRunService/uat"){
