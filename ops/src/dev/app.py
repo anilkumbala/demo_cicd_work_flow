@@ -1,8 +1,13 @@
 from flask import Flask, render_template
-from werkzeug.utils import url_quote
 
 app = Flask(__name__)
 
+# Health check endpoint
+@app.route('/health')
+def health_check():
+    return 'OK', 200
+
+# Your main endpoint
 @app.route('/')
 def hello_world():
     try:
@@ -13,4 +18,3 @@ def hello_world():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9090)
-
