@@ -10,7 +10,8 @@ def hello_world():
     <br>
     <marquee direction="left" behavior="scroll" scrollamount="5" style="color: green; font-size: x-large;">
         Good news guys
-    </marquee>'''
+    </marquee>
+    <img src="softility_inc_cover.jfif" alt="Sample Image" width="500" height="300">'''
     
     response = make_response(html_content)
     
