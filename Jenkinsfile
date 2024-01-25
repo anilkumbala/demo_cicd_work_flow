@@ -68,11 +68,6 @@ pipeline{
                         sh "docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
                         sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
                         sh 'docker images'
-                        sh "docker tag pythondemoimage:${imageTag} asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
-                        sh "docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}"
-                        //sh 'docker images'
-                        //sh 'docker tag pythondemoimage asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
-                        //sh 'docker push asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:latest'
                         }
                     } else if(env.BRANCH_NAME == 'test'){
                         dir("ops/src/uat"){
@@ -124,7 +119,7 @@ pipeline{
                                 sh 'gcloud config set project excellent-guide-410011'
                                 sh 'kubectl config view'
                                 sh 'gcloud container clusters get-credentials anil-demo-gke-cluster --region asia-south1 --project excellent-guide-410011'
-
+                                sh "sed -i 's|asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:\${imageTag}|asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}|' deployment.yaml" 
                                 sh'kubectl apply -f deployment.yml'
                                 sh'kubectl apply -f service.yml'
                             }
