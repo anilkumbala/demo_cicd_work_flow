@@ -6,7 +6,11 @@ app = Flask(__name__)
 def hello_world():
     # HTML content with a specific text color
     html_content = ''' <marquee direction="left" behavior="scroll" scrollamount="5" style="color: blue; font-size: large;">
-    Hello, Welcome to my Webpage, Team DevOps SOFTILITY </marquee>'''
+    Hello, Welcome to my Webpage, Team DevOps SOFTILITY </marquee>
+    <br>
+    <marquee direction="left" behavior="scroll" scrollamount="5" style="color: green; font-size: large;">
+        Good news guys
+    </marquee>'''
     
     response = make_response(html_content)
     
