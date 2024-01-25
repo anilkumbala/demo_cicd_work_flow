@@ -5,7 +5,8 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     # HTML content with a specific text color
-    html_content = '<marquee style="color: blue; font-size: 16px;">Hello, World! from development team softility</marquee>'
+    html_content = ''' <marquee direction="left" behavior="scroll" scrollamount="5" style="color: blue; font-size: large;">
+    Hello, Welcome to my Webpage, Team DevOps SOFTILITY </marquee>'''
     
     response = make_response(html_content)
     
