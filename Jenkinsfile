@@ -95,6 +95,7 @@ pipeline {
 
                     if (env.BRANCH_NAME == 'develop') {
                         dir("ops/CloudRunService/dev") {
+                            sh "sed -i 's|asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:\${imageTag}|asia-south1-docker.pkg.dev/excellent-guide-410011/anil-cicd-demo-dev-repo/pythondemoimage:${imageTag}|' main.tf"
                             sh 'terraform --version'
                             sh 'terraform init'
                             sh 'terraform plan -out=output.tfplan'
