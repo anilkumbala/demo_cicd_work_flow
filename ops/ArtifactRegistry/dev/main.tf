@@ -11,7 +11,7 @@ terraform {
 terraform {
   backend "gcs" {
     bucket = "anil-terraform-statefiles" # GCS bucket name to store terraform tfstate
-    prefix = "cicd-demo/dev/terraform.tfstate"               # Prefix name should be unique for each Terraform project having same remote state bucket.
+    prefix = "cicd-demo/dev/ArtifactRegistry"               # Prefix name should be unique for each Terraform project having same remote state bucket.
   }
 }
 provider "google" {
@@ -24,6 +24,6 @@ resource "google_artifact_registry_repository" "my-repo" {
   format        = var.format
 
   docker_config {
-    immutable_tags = true
+    immutable_tags = false
   }
 }
